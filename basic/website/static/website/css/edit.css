@@ -1,0 +1,12 @@
+
+/* Image Video Chat Logo */
+
+.web-logo {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 5px;
+    /* flex-direction: column; */
+    /* align-items: center; */
+    /* width: 5vw; */
+    /* height: 5vh; */
+  }

@@ -1,0 +1,39 @@
+{% load static %} {% block content %}
+
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'website/css/chat.css' %}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'website/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}"
+/>
+<link
+  rel="stylesheet"
+  type="text/css"
+  href="{% static 'website/fonts/iconic/css/material-design-iconic-font.min.css' %}"
+/>
+
+<ul
+  id="chat"
+  style="
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+  "
+>
+  {% if not is_started.0 %}
+  <img src="{% static  'website/images/waving-hi.gif'%}" />
+  <p>Say Hi to start conversation with</p>
+  {% comment %}
+  <img src="{% static {{profile_photo.0}} %}" alt="" />
+  {% endcomment %}
+  <p class="con-name">{{ connections.0 }}</p>
+
+  {% endif %}
+</ul>
+
+{% endblock %}
