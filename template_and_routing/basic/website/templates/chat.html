@@ -1,21 +1,33 @@
 {% load static %} {% block content %}
-
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'website/css/chat.css' %}"
-/>
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'website/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}"
-/>
-<link
-  rel="stylesheet"
-  type="text/css"
-  href="{% static 'website/fonts/iconic/css/material-design-iconic-font.min.css' %}"
-/>
-<body style="background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2)), url('{% static 'website/images/bg-01.jpg' %}')">
+<head>
+  <title>Chattin' {{connections.0}}</title>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'website/css/chat.css' %}"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'website/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'website/fonts/iconic/css/material-design-iconic-font.min.css' %}"
+  />
+  <link
+    rel="icon"
+    type="image/jpg"
+    href="{% static 'website\images\video-chat 24.png' %}"
+  />
+</head>
+<body
+  style="
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2)),
+      url('{% static 'website/images/bg-01.jpg' %}');
+  "
+>
   <div id="container">
     <aside>
       <header>
@@ -23,8 +35,7 @@
       </header>
       <ul id="people">
         {% for name, photo in people %}
-        {% comment %} <a href="{% 'url' %}"> {% endcomment %}
-          <input type="hidden" value="forloop.counter0">
+        <input type="hidden" value="forloop.counter0" />
         <li class="person" id="{{ forloop.counter0 }}">
           <img src="{{photo}}" alt="" />
           <div>
@@ -36,28 +47,26 @@
     </aside>
     <main>
       <header>
-        <img
-          src=""
-          alt=""
-        />
+        <img class="prof-photo" src="{{ profile_photo.0 }}" alt="" />
         <div>
           <h2 class="con-name">{{connections.0}}</h2>
         </div>
-        <img
-          src="{% static 'website\images\ico_star.png' %}"
-          alt=""
-        />
+        <img src="{% static 'website\images\ico_star.png' %}" alt="" />
       </header>
-      <ul id="chat" style="display: flex; flex-direction: column; justify-content: flex-end; align-items: center;">
+      <ul
+        id="chat"
+        style="
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          align-items: center;
+        "
+      >
         {% if not is_started.0 %}
-        <img src="{% static  'website/images/waving-hi.gif'%}">
+        <img src="{% static  'website/images/waving-hi.gif'%}" />
         <p>Say Hi to start conversation with</p>
-        {% comment %} <img
-          src="{% static {{profile_photo.0}} %}"
-          alt=""
-        />  {% endcomment %}
+        <img class="prof-photo" src="{{profile_photo.0}}" alt="" />
         <p class="con-name">{{ connections.0 }}</p>
-
         {% endif %}
       </ul>
       <div class="border">
@@ -77,22 +86,26 @@
     </main>
   </div>
 </body>
-    {% endblock %}
+{% endblock %}
 
 <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
 <script>
-  //console.log({{ forloop.counter0 }});
+  $(".prof-photo").css("border-radius", "50%");
   $(".person").click(function (event) {
-   /* $.ajax({
-      url: $(this).attr("id") + "/",
-      success: function (result) {
-        console.log("done, result=%s", result);
-      },
-    });*/
-    //console.log("recognize/" + $(this).attr("id"));
     var abc = $(this).text();
-    console.log(abc);
-    $('.con-name').html(abc);
-
+    $(".con-name").html(abc);
+    var src = $(this).find("img").attr("src");
+    $(".prof-photo").attr("src", src);
+    $("title").html("Chattin'" + abc);
   });
 </script>
+
+{% comment %} Comments console.log({{ forloop.counter0 }}); - get counter of
+forloop in djaongo Change URL in browser using AJAX
+
+<a href="{% 'url' %}"></a>
+
+/* $.ajax({ url: $(this).attr("id") + "/", success: function (result) {
+console.log("done, result=%s", result); }, });*/ //console.log("recognize/" +
+$(this).attr("id")); Change src attribute of img //console.log(src);
+//console.log($('#chat:nth-child(3)').attr('src')); {% endcomment %}
