@@ -4,7 +4,7 @@
   <link
     rel="stylesheet"
     type="text/css"
-    href="{% static 'website/css/chat.css' %}"
+    href="{% static 'website/css/video.css' %}"
   />
   <link
     rel="stylesheet"
@@ -77,39 +77,84 @@
           width="32px"
           style="float: right; margin-top: 5px"
         />
-        <a href="{% url 'video' %}" style="float: right">
-          <img
-            src="{% static 'website\images\video-ico.png' %}"
-            width="36px"
-            height="20px"
-            style="
-              margin-top: 12px;
-              float: right;
-              right: 80px;
-              margin-right: 25px;
-            "
-          />
-        </a>
+        <img
+          src="{% static 'website\images\video-ico.png' %}"
+          width="36px"
+          height="20px"
+          style="
+            margin-top: 12px;
+            float: right;
+            right: 80px;
+            margin-right: 25px;
+          "
+        />
         {% comment %}
         <img src="{% static 'website\images\ico_star.png' %}" alt="" />
         {% endcomment %}
       </header>
-      <ul
-        id="chat"
-        style="
-          display: flex;
-          flex-direction: column;
-          justify-content: flex-end;
-          align-items: center;
-        "
-      >
-        {% if not connections.0.is_started %}
-        <img src="{% static  'website/images/waving-hi.gif'%}" />
-        <p>Say Hi to start conversation with</p>
-        <img class="prof-photo" src="{{connections.0.profile_photo}}" alt="" />
-        <p class="con-name">{{ connections.0.name }}</p>
-        {% endif %}
-      </ul>
+      <div class="video-chat" style="display: flex">
+        <ul
+          id="chat"
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+          "
+        >
+          {% if not connections.0.is_started %}
+          <img src="{% static  'website/images/waving-hi.gif'%}" />
+          <p>Say Hi to start conversation with</p>
+          <img
+            class="prof-photo"
+            src="{{connections.0.profile_photo}}"
+            alt=""
+          />
+          <p class="con-name">{{ connections.0.name }}</p>
+          {% endif %}
+        </ul>
+        <div
+          class="video"
+          width="50%"
+          height="100%"
+          style="background-color: black"
+        >
+          <img
+            class="prof-photo"
+            src="{{connections.0.profile_photo}}"
+            alt=""
+            height="128px"
+            width="128px"
+            style="margin-left: 40%; margin-top: 40%"
+          />
+          <div class="call-icons">
+            <span class="microphone">
+              <img
+                src="{% static 'website\images\microphone.png' %}"
+                width="64"
+                height="64"
+                class="unmute"
+              />
+              <img
+                src="{% static 'website\images\mute.png' %}"
+                width="64"
+                height="64"
+                class="mute"
+              />
+            </span>
+            <img
+              src="{% static 'website\images\turn-video-off-button.png' %}"
+              width="64"
+              height="64"
+            />
+            <img
+              src="{% static 'website\images\phone-call-end.png' %}"
+              width="64"
+              height="64"
+            />
+          </div>
+        </div>
+      </div>
       <div class="border">
         <footer>
           <textarea placeholder="Type your message"></textarea>
@@ -132,14 +177,40 @@
 
 <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
 <script>
-  $(".prof-photo").css("border-radius", "50%");
-  $(".person").click(function (event) {
-    var abc = $(this).text();
-    $(".con-name").html(abc);
-    var src = $(this).find("img").attr("src");
-    $(".prof-photo").attr("src", src);
-    $("title").html("Chattin'" + abc);
-  });
+  $(".mute").hide();
+    $(".prof-photo").css("border-radius", "50%");
+    $(".person").click(function (event) {
+      var abc = $(this).text();
+      $(".con-name").html(abc);
+      var src = $(this).find("img").attr("src");
+      $(".prof-photo").attr("src", src);
+      $("title").html("Chattin'" + abc);
+    });
+  {% comment %} var shown {% endcomment %}
+    $(".microphone").on("click", function () {
+     /* if ($(".unmute").css("display") == "none") {
+        $(".mute").hide();
+        $(".unmute").show();
+        console.log($(".mute").css("display"));
+        console.log($(".ummute").css("display"));
+        console.log("done .unmute");
+      }
+      if ($(".mute").css("display") == "none") {
+        $(".unmute").hide();
+        $(".mute").show();
+        console.log($(".mute").css("display"));
+        console.log($(".ummute").css("display"));
+        console.log("done .mute");
+      } */
+      if($(".mute").is(":hidden")){
+        $(".mute").show();
+        $(".unmute").hide();
+      }
+      else{
+        $(".unmute").show();
+        $(".mute").hide();
+      }
+    });
 </script>
 
 {% comment %} Comments console.log({{ forloop.counter0 }}); - get counter of
