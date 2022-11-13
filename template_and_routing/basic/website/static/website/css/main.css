@@ -1,5 +1,10 @@
 
 
+/* BootStrap Edit
+*/
+.alert {
+  width: 99%;
+}
 
 
 /*//////////////////////////////////////////////////////////////////
@@ -172,6 +177,7 @@ iframe {
   display: -ms-flexbox;
   display: flex;
   flex-wrap: wrap;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding: 15px;

@@ -1,4 +1,7 @@
 {% extends 'base-login.html' %} {% load static %} {% block content %}
+<head>
+  <title>Signup</title>
+</head>
 <div class="limiter">
   <div
     class="container-login100"
@@ -8,19 +11,40 @@
       <div class="web-logo">
         <img src="{% static '/website/images/video-chat 128.png' %}" />
       </div>
-      <form class="login100-form validate-form">
+      <form
+        class="login100-form validate-form"
+        method="POST"
+        action="{% url 'signup' %}"
+      >
+        {% csrf_token %}
         <span class="login100-form-title p-b-49"> Signup </span>
 
         <div
           class="wrap-input100 validate-input m-b-23"
-          data-validate="Username is reauired"
+          data-validate="Username is required"
         >
           <span class="label-input100">Username</span>
           <input
             class="input100"
             type="text"
-            name="username"
+            name="name"
             placeholder="Type your username"
+            value="{{ name }}"
+          />
+          <span class="focus-input100" data-symbol="&#xf206;"></span>
+        </div>
+
+        <div
+          class="wrap-input100 validate-input m-b-23"
+          data-validate="Profile Photo is required"
+        >
+          <span class="label-input100">Profile Photo</span>
+          <input
+            class="input100"
+            type="text"
+            name="profile_photo"
+            placeholder="Enter your ptofile photo"
+            value="{{ profile_photo }}"
           />
           <span class="focus-input100" data-symbol="&#xf206;"></span>
         </div>
@@ -33,8 +57,9 @@
           <input
             class="input100"
             type="password"
-            name="pass"
+            name="password"
             placeholder="Type your password"
+            value="{{ password }}"
           />
           <span class="focus-input100" data-symbol="&#xf190;"></span>
         </div>
