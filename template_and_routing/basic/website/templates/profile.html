@@ -1,0 +1,64 @@
+{% load static %}
+<head>
+  <title>Chattin'</title>
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'website/fonts/font-awesome-4.7.0/css/font-awesome.min.css' %}"
+  />
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'website/fonts/iconic/css/material-design-iconic-font.min.css' %}"
+  />
+  <link
+    rel="icon"
+    type="image/jpg"
+    href="{% static 'website\images\video-chat 24.png' %}"
+  />
+
+  <link
+    rel="stylesheet"
+    type="text/css"
+    href="{% static 'website\css\profile.css' %}"
+  />
+
+  {% comment %}
+  <!--BootStrap-->
+
+  <!-- CSS only -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+    integrity="sha384-Zenh87qX5JnK2Jl0vWa8Ck2rdkQ2Bzep5IDxbcnCeuOxjzrPF/et3URy9Bv1WTRi"
+    crossorigin="anonymous"
+  />
+  <!-- JavaScript Bundle with Popper -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-OERcA2EqjJCMA+/3y+gxIOqMEjwtxJY7qPCqsdltbNJuaOe923+mo//f6V8Qbsw3"
+    crossorigin="anonymous"
+  ></script>
+  {% endcomment %}
+</head>
+<body
+  style="
+    background-image: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.2)),
+      url('{% static 'website/images/bg-01.jpg' %}');
+  "
+>
+  <div id="container">
+    <a href="{% url 'chat' %}"
+      ><img class="back" src="{% static 'website/images/back.png' %}"
+    /></a>
+    <div class="profile">
+      <div class="img">
+        <img src="{{ photo }}" />
+      </div>
+      <div class="data">
+        <div class="name">Name : {{ name }}</div>
+        <div class="status">Status : Not Available</div>
+      </div>
+    </div>
+  </div>
+</body>

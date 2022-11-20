@@ -61,13 +61,9 @@
     </aside>
     <main>
       <header>
-        <img
-          class="prof-photo"
-          src="{{ connections.0.profile_photo }}"
-          alt=""
-        />
+        <img class="prof-photo" src="{{ photo }}" alt="" />
         <div>
-          <h2 class="con-name">{{connections.0.name}}</h2>
+          <h2 class="con-name">{{name}}</h2>
         </div>
 
         <img
@@ -104,12 +100,8 @@
           {% if not connections.0.is_started %}
           <img src="{% static  'website/images/waving-hi.gif'%}" />
           <p>Say Hi to start conversation with</p>
-          <img
-            class="prof-photo"
-            src="{{connections.0.profile_photo}}"
-            alt=""
-          />
-          <p class="con-name">{{ connections.0.name }}</p>
+          <img class="prof-photo" src="{{photo}}" alt="" />
+          <p class="con-name">{{ name }}</p>
           {% endif %}
         </ul>
         <div
@@ -120,7 +112,7 @@
         >
           <img
             class="prof-photo"
-            src="{{connections.0.profile_photo}}"
+            src="{{photo}}"
             alt=""
             height="128px"
             width="128px"

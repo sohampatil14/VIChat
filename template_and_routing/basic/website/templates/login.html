@@ -27,7 +27,7 @@
         method="POST"
         action="{% url 'login' %}"
       >
-        {% csrf_token %}
+        {% comment %} {% csrf_token %} {% endcomment %}
         <span class="login100-form-title p-b-49"> Login </span>
 
         <div

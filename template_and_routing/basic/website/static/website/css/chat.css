@@ -162,10 +162,10 @@ main header > *{
 	float: right;
 	margin-right: 25px;
 } */
-main header div{
+/* main header div{
 	margin-left:10px;
 	margin-right:145px;
-}
+} */
 main header h2{
 	font-size:16px;
 	margin-bottom:5px;
@@ -190,6 +190,31 @@ main ul{
 	height:70%;
 }
 
+.chat {
+	width: 100%;
+	height: 70%;
+	display: flex;
+	flex-direction: column;
+	padding: 2%;
+}
+ 
+.receive {
+	margin-top: 15px;
+	margin-right: auto;
+	background-color: yellow;
+	border-radius: 10px;
+	padding: 20px;
+	width: fit-content;
+}
+
+.send {
+	margin-top: 15px;
+	margin-left: auto;
+	background-color: green;
+	border-radius: 10px;
+	padding: 20px;
+	width: fit-content;
+}
 
 #chat li{
 	padding:10px 30px;
@@ -330,7 +355,26 @@ main footer a{
 	border-radius: 50%;
   }
   
+.profile-img{
+	display: flex;
+	flex-direction: row;
+	column-gap: 5px;
+}
+
   .profile .profile-img img {
 	height: 32px;
 	width: 32px;
+  }
+  
+  /* .profile .profile-img button{
+	height: 32px;
+	width: 32px;
+	background-color: transparent;
+	border: transparent;
+  } */
+
+  .w3-bar-item:hover{
+	/* color: #00d4ff; */
+	color: #000000;
+	background-color: #00d4ff;
   }

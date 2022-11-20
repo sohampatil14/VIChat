@@ -7,6 +7,17 @@
     class="container-login100"
     style="background-image: url('{% static 'website/images/bg-01.jpg' %}')"
   >
+    {% if messages %} {% for message in messages %}
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+      <strong>{{ message }}</strong>
+      <button
+        type="button"
+        class="btn-close"
+        data-bs-dismiss="alert"
+        aria-label="Close"
+      ></button>
+    </div>
+    {% endfor %} {% endif %}
     <div class="wrap-login100 p-l-55 p-r-55 p-t-65 p-b-54">
       <div class="web-logo">
         <img src="{% static '/website/images/video-chat 128.png' %}" />
@@ -16,7 +27,7 @@
         method="POST"
         action="{% url 'signup' %}"
       >
-        {% csrf_token %}
+        {% comment %} {% csrf_token %} {% endcomment %}
         <span class="login100-form-title p-b-49"> Signup </span>
 
         <div

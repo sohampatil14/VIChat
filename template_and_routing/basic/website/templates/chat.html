@@ -21,6 +21,9 @@
     type="image/jpg"
     href="{% static 'website\images\video-chat 24.png' %}"
   />
+
+  <link rel="stylesheet" href="{% static 'website/css/w3.css' %}" />
+
   <!--BootStrap-->
 
   <!-- CSS only -->
@@ -43,6 +46,21 @@
       url('{% static 'website/images/bg-01.jpg' %}');
   "
 >
+  {% if messages %} {% for message in messages %}
+  <div
+    class="alert alert-warning alert-dismissible fade show"
+    role="alert"
+    style="margin: 0; margin-left: 20px; margin-right: 20px; margin-top: 15px"
+  >
+    <strong>{{ message }}</strong>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="alert"
+      aria-label="Close"
+    ></button>
+  </div>
+  {% endfor %} {% endif %}
   <div id="container">
     <aside>
       <header>
@@ -56,7 +74,41 @@
           </div>
           <div class="profile-img">
             <img src="{% static 'website\images\search.png' %}" />
-            <img src="{% static 'website\images\three-dots-ico.png' %}" />
+            {% comment %}
+            https://www.w3schools.com/howto/howto_js_filter_dropdown.asp#:~:text=Example%20Explained,dropdown%20menu%20correctly%20with%20CSS.
+            search drop down {% endcomment %}
+            <div class="w3-container">
+              <div class="w3-dropdown-hover">
+                <button class="w3-button">
+                  <img src="{% static 'website\images\three-dots-ico.png' %}" />
+                </button>
+                <div
+                  class="w3-dropdown-content w3-bar-block w3-border"
+                  style="border-radius: 5px"
+                >
+                  <form
+                    action="{% url 'profile' %}"
+                    method="POST"
+                    style="margin: 0"
+                  >
+                    <input
+                      type="hidden"
+                      value="{{ request.session.name }}"
+                      name="name"
+                    />
+                    <input
+                      type="hidden"
+                      value="{{ request.session.profile_photo }}"
+                      name="photo"
+                    />
+                    <button class="w3-bar-item w3-button">Profile</button>
+                  </form>
+                  <a href="{% url 'logout' %}" class="w3-bar-item w3-button"
+                    >Logout</a
+                  >
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </header>
@@ -99,29 +151,87 @@
           <h2 class="con-name">{{connections.0.name}}</h2>
         </div>
 
+        <div class="w3-container" style="float: right">
+          <div class="w3-dropdown-hover">
+            <button class="w3-button">
+              <img
+                src="{% static 'website\images\three-dots-ico.png' %}"
+                height="32px"
+                width="32px"
+                style="float: right; margin-top: 5px"
+              />
+            </button>
+            <div
+              class="w3-dropdown-content w3-bar-block w3-border"
+              style="border-radius: 5px; right: 0"
+            >
+              <form
+                action="{% url 'profile' %}"
+                method="POST"
+                style="margin: 0"
+              >
+                <input
+                  type="hidden"
+                  value="{{ connections.0.name }}"
+                  name="name"
+                  class="name"
+                />
+                <input
+                  type="hidden"
+                  value="{{ connections.0.profile_photo }}"
+                  class="photo"
+                  name="photo"
+                />
+                <button class="w3-bar-item w3-button">Profile</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        {% comment %}
         <img
           src="{% static 'website\images\three-dots-ico.png' %}"
           height="32px"
           width="32px"
           style="float: right; margin-top: 5px"
         />
-        <a href="{% url 'video' %}" style="float: right">
-          <img
-            src="{% static 'website\images\video-ico.png' %}"
-            width="36px"
-            height="20px"
-            style="
-              margin-top: 12px;
-              float: right;
-              right: 80px;
-              margin-right: 25px;
-            "
+        {% endcomment %}
+        <form
+          action="{% url 'video' %}"
+          method="POST"
+          style="margin: 0; float: right"
+        >
+          <input
+            type="hidden"
+            value="{{ connections.0.name }}"
+            name="name"
+            class="name"
           />
-        </a>
+          <input
+            type="hidden"
+            value="{{ connections.0.profile_photo }}"
+            class="photo"
+            name="photo"
+          />
+          <button style="border: 0">
+            <img
+              src="{% static 'website\images\video-ico.png' %}"
+              width="36px"
+              height="20px"
+              style="
+                margin-top: 12px;
+                float: right;
+                right: 80px;
+                margin-right: 25px;
+              "
+            />
+          </button>
+        </form>
         {% comment %}
         <img src="{% static 'website\images\ico_star.png' %}" alt="" />
         {% endcomment %}
       </header>
+      {% comment %}
       <ul
         id="chat"
         style="
@@ -138,6 +248,13 @@
         <p class="con-name">{{ connections.0.name }}</p>
         {% endif %}
       </ul>
+      {% endcomment %}
+
+      <div class="chat">
+        <div class="receive">{% lorem 1 b random %}</div>
+        <div class="send">{% lorem 1 b random %}</div>
+      </div>
+
       <div class="border">
         <footer>
           <textarea placeholder="Type your message"></textarea>
@@ -160,6 +277,7 @@
 
 <script type="text/javascript" src="{% static 'jquery.js' %}"></script>
 <script>
+  $(".send").click(function () {});
   $(".prof-photo").css("border-radius", "50%");
   $(".person").click(function (event) {
     var abc = $(this).text();
@@ -167,6 +285,8 @@
     var src = $(this).find("img").attr("src");
     $(".prof-photo").attr("src", src);
     $("title").html("Chattin'" + abc);
+    $(".name").val(abc);
+    $(".photo").val(src);
   });
 </script>
 
