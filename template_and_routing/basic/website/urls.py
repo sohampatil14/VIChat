@@ -9,5 +9,6 @@ urlpatterns = [
     path('video/', views.video, name="video"),
     path('logout/', views.logout_user, name="logout"),
     path('profile/', views.profile, name="profile"),
+    path('profile-create/', views.profile_create, name="profile-create"),
     # path('chat/0/', views.chat_clicked, name = "chat_clicked"),
 ]

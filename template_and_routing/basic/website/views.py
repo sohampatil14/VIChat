@@ -66,13 +66,53 @@ def signup(request):
                 messages.success(
                     request, "Signup Sucessful! Please Login to continue.")
                 return render(request, 'login.html', {})
+                # return render(request, 'profile_create.html', {})
+                # user = authenticate(request, username=request.POST['name'], password=request.POST['password1'])
+                # if user is not None:
+                #     login(request, user)
+                #     request.session['name'] = request.POST['name']
+                #     request.session['profile_photo'] = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_03.jpg"
+                #     request.session['is_login'] = True
+                #     messages.success(request, "Login Sucessful")
+                #     return redirect('chat')
+                # else:
+                #     return redirect('login')
+            # form = UserCreationForm(request.POST)# or None)
+            # if form.is_valid():
+            #     form.save()
+            #     username = form.cleaned_data['name']
+            #     password = form.cleaned_data['password1']
+            #     # password2 = form.cleaned_data['password2']
+            #     user = authenticate(username=username, password=password)
+            #     login(request, user)
+            #     return redirect('chat')
             else:
                 messages.error(
                     request, "Signup Unsucessful! Please try again.")
                 return render(request, 'signup.html', {})
+            #     name = request.POST['name']
+            #     password1 = request.POST['password1']
+            #     password2 = request.POST['password2']
+            #     messages.error(request, "Sign Up Unsucessful")
+            #     return render(request, 'signup.html', {
+            #         'name':name,
+            #         'password':password,
+            #         'profile_photo':profile_photo,
+            #         })
+            # messages.success(request, "Sign Up Sucessful")
+            # return redirect('login')
 
         else:
             return render(request, 'signup.html', {})
+
+
+@csrf_exempt
+def profile_create(request):
+    if request.method == "POST":
+        request.session['status'] = request.POST['status']
+        messages.success(request, "Profile Creation Successful.")
+        return render(request, 'login.html', {})
+    return render(request, 'profile_create.html', {})
 
 
 @csrf_exempt
@@ -98,3 +138,11 @@ def video(request):
 
 def chat_clicked(request):
     return render(request, 'done')
+
+
+# https://www.youtube.com/playlist?list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy
+# https://stackoverflow.com/questions/1061279/for-the-django-admin-how-do-i-add-a-field-to-the-user-model-and-have-it-editabl
+# https://www.youtube.com/watch?v=EqjRhO5CK6A&list=PLCC34OHNcOtqW9BJmgQPPzUpJ8hl49AGy&index=25
+# https://www.youtube.com/watch?v=sSKYEMEU-C8 -- code editor
+# https://www.youtube.com/playlist?list=PLOLrQ9Pn6cayYycbeBdxHUFrzTqrNE7Pe -- db course
+# https://www.youtube.com/watch?v=kRJpQxi2jIo -- modified user fileds

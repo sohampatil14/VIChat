@@ -53,11 +53,28 @@
     /></a>
     <div class="profile">
       <div class="img">
-        <img src="{{ photo }}" />
+        {% comment %} <img src="{{ photo }}" /> {% endcomment %}
       </div>
       <div class="data">
-        <div class="name">Name : {{ request.session.name }}</div>
-        <div class="status">Status : {{ request.session.status }}</div>
+        <form action="{% url 'profile-create' %}" method="POST">
+          <div class="name">
+            <input
+              type="text"
+              name="username"
+              placeholder="Enter your username"
+              value="{{ request.session.name }}"
+            />
+          </div>
+          <div class="status">
+            <input
+              type="text"
+              name="status"
+              placeholder="Enter your status"
+              value=""
+            />
+          </div>
+          <button>Submit</button>
+        </form>
       </div>
     </div>
   </div>

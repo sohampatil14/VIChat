@@ -42,9 +42,10 @@ body {
 	font-family: Poppins-Regular;
 }
 
-.img img {
+.img, .img img {
 	border-radius: 50%;
 	height: 300px;
 	width: 300px;
+	background-color: rgba(112, 112, 112, 0.945);
 }
 
