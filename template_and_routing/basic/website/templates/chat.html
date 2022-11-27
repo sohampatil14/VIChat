@@ -74,9 +74,6 @@
           </div>
           <div class="profile-img">
             <img src="{% static 'website\images\search.png' %}" />
-            {% comment %}
-            https://www.w3schools.com/howto/howto_js_filter_dropdown.asp#:~:text=Example%20Explained,dropdown%20menu%20correctly%20with%20CSS.
-            search drop down {% endcomment %}
             <div class="w3-container">
               <div class="w3-dropdown-hover">
                 <button class="w3-button">
@@ -133,11 +130,22 @@
         {% endfor %} {% endcomment %}
       </ul>
       <div class="add-ico">
-        <img
-          src="{% static 'website\images\add-ico.png' %}"
-          width="64"
-          height="64"
-        />
+        <div id="myDropdown" class="dropdown-content">
+          <input
+            type="text"
+            placeholder="Search.."
+            id="myInput"
+            onkeyup="filterFunction()"
+            style="background: #7b448d"
+          />
+        </div>
+        <button onclick="myFunction()" class="dropbtn">
+          <img
+            src="{% static 'website\images\add-ico.png' %}"
+            width="64"
+            height="64"
+          />
+        </button>
       </div>
     </aside>
     <main>
@@ -288,6 +296,27 @@
     $(".name").val(abc);
     $(".photo").val(src);
   });
+  /* When the user clicks on the button,
+    toggle between hiding and showing the dropdown content */
+  function myFunction() {
+    document.getElementById("myDropdown").classList.toggle("show");
+  }
+
+  function filterFunction() {
+    var input, filter, ul, li, a, i;
+    input = document.getElementById("myInput");
+    filter = input.value.toUpperCase();
+    div = document.getElementById("myDropdown");
+    a = div.getElementsByTagName("a");
+    for (i = 0; i < a.length; i++) {
+      txtValue = a[i].textContent || a[i].innerText;
+      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+        a[i].style.display = "";
+      } else {
+        a[i].style.display = "none";
+      }
+    }
+  }
 </script>
 
 {% comment %} Comments console.log({{ forloop.counter0 }}); - get counter of
@@ -298,4 +327,6 @@ forloop in djaongo Change URL in browser using AJAX
 /* $.ajax({ url: $(this).attr("id") + "/", success: function (result) {
 console.log("done, result=%s", result); }, });*/ //console.log("recognize/" +
 $(this).attr("id")); Change src attribute of img //console.log(src);
-//console.log($('#chat:nth-child(3)').attr('src')); {% endcomment %}
+//console.log($('#chat:nth-child(3)').attr('src')); {% endcomment %} {%comment%}
+https://www.w3schools.com/howto/howto_js_filter_dropdown.asp#:~:text=Example%20Explained,dropdown%20menu%20correctly%20with%20CSS.
+search drop down {% endcomment %}

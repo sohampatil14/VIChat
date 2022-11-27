@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from .models import connection
+from .models import Account
 from .forms import connectionForm
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -8,6 +9,7 @@ from django.contrib.auth.models import User
 # from django.contrib.auth.forms import UserCreationForm
 from django.views.decorators.csrf import csrf_exempt
 # from django.urls import reverse, reverse_lazy
+import secrets
 
 
 def home(request):
@@ -60,9 +62,14 @@ def signup(request):
     else:
         if request.method == "POST":
             if request.POST['password1'] == request.POST['password2']:
+
                 user = User.objects.create_user(
                     request.POST['name'], '', request.POST['password1'])
                 user.save()
+                account = Account(
+                    user=user, status='Not Available', userID=secrets.token_hex(3))
+                account.userID = secrets.token_hex(3)
+                account.save()
                 messages.success(
                     request, "Signup Sucessful! Please Login to continue.")
                 return render(request, 'login.html', {})
