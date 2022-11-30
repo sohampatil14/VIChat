@@ -114,8 +114,12 @@
         {% for connection in connections %}
         <input type="hidden" value="forloop.counter0" />
         <li class="person" id="{{ forloop.counter0 }}">
-          <img src="" alt="" />
-          <div>
+          <img
+            src="{% static 'website/images/default-profile.png' %}"
+            alt=""
+            style="height: 64px; width: 64px; background: white"
+          />
+          <div style="margin-top: 5%; margin-left: 1%">
             <h2>{{ connection.userconnected }}</h2>
           </div>
         </li>

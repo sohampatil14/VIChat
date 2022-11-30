@@ -29,7 +29,7 @@ def login_user(request):
         if user is not None:
             login(request, user)
             request.session['name'] = username
-            request.session['profile_photo'] = "https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/chat_avatar_03.jpg"
+            request.session['profile_photo'] = "https://www.computerhope.com/issues/pictures/win10-user-account-default-picture.png"
             request.session['is_login'] = True
             user = Account.objects.filter(username=username).values()
             request.session['ID'] = user[0]['userID']
@@ -138,7 +138,7 @@ def profile_create(request):
 @csrf_exempt
 def chat(request):
     if request.method == "POST":
-        if bool(request.POST['send']):
+        if request.POST['send'] == 'True':
             sender = request.session['name']
             receiver = request.POST['receiver']
             message = request.POST['text']
@@ -156,14 +156,15 @@ def chat(request):
                 userconnected=account.username, connectionid=request.session['ID'])
             user.is_started = True
             user.save()
-            sent = ChatHistory.objects.filter(
-                sender=request.session['name']).values()
-            received = ChatHistory.objects.filter(
-                receiver=request.session['name']).values()
-            messages = sent | received
-            all_connections = UserConnection.objects.filter(
-                userid=request.session['ID']).values()
-            return render(request, 'chat.html', {'connections': all_connections, 'chats': messages})
+            # sent = ChatHistory.objects.filter(
+            #     sender=request.session['name']).values()
+            # received = ChatHistory.objects.filter(
+            #     receiver=request.session['name']).values()
+            # messages = sent | received
+            # all_connections = UserConnection.objects.filter(
+            #     userid=request.session['ID']).values()
+            # return render(request, 'chat.html', {'connections': all_connections, 'chats': messages})
+            return redirect('chat')
         else:
             conID = request.POST['conid']
             con = Account.objects.filter(userID=conID).values()
@@ -173,43 +174,46 @@ def chat(request):
                 if UserConnection.objects.filter(user=user, userconnected=con.username,
                                                  userid=request.session['ID'], connectionid=con.userID).count() > 0:
                     messages.error(request, 'User Already Connected!')
-                    all_connections = UserConnection.objects.filter(
-                        userid=request.session['ID']).values()
-                    return render(request, 'chat.html', {'connections': all_connections})
+                    # all_connections = UserConnection.objects.filter(
+                    # userid=request.session['ID']).values()
+                    # return render(request, 'chat.html', {'connections': all_connections})
+                    return redirect('chat')
                 connect = UserConnection(user=user, userconnected=con.username,
                                          userid=request.session['ID'], connectionid=con.userID)
                 connect.save()
                 connect = UserConnection(
                     user=con, userconnected=user.username, userid=conID, connectionid=user.userID)
                 connect.save()
-                sent = ChatHistory.objects.filter(
-                    sender=request.session['name']).values()
-                received = ChatHistory.objects.filter(
-                    receiver=request.session['name']).values()
-                messages = sent | received
-                all_connections = UserConnection.objects.filter(
-                    userid=request.session['ID']).values()
-                return render(request, 'chat.html', {'connections': all_connections, 'chats': messages})
+                # sent = ChatHistory.objects.filter(
+                #     sender=request.session['name']).values()
+                # received = ChatHistory.objects.filter(
+                #     receiver=request.session['name']).values()
+                # messages = sent | received
+                # all_connections = UserConnection.objects.filter(
+                #     userid=request.session['ID']).values()
+                # return render(request, 'chat.html', {'connections': all_connections, 'chats': messages})
+                return redirect('chat')
             else:
                 messages.error(request, 'No such user exists!')
-                sent = ChatHistory.objects.filter(
-                    sender=request.session['name']).values()
-                received = ChatHistory.objects.filter(
-                    receiver=request.session['name']).values()
-                messages = sent | received
-                all_connections = UserConnection.objects.filter(
-                    userid=request.session['ID']).values()
-                return render(request, 'chat.html', {'connections': all_connections, 'chats': messages})
+                # sent = ChatHistory.objects.filter(
+                #     sender=request.session['name']).values()
+                # received = ChatHistory.objects.filter(
+                #     receiver=request.session['name']).values()
+                # messages = sent | received
+                # all_connections = UserConnection.objects.filter(
+                #     userid=request.session['ID']).values()
+                # return render(request, 'chat.html', {'connections': all_connections, 'chats': messages})
+                return redirect('chat')
     else:
         if request.user.is_authenticated:
             sent = ChatHistory.objects.filter(
                 sender=request.session['name']).values()
             received = ChatHistory.objects.filter(
                 receiver=request.session['name']).values()
-            messages = sent | received
+            chats = sent | received
             all_connections = UserConnection.objects.filter(
                 userid=request.session['ID']).values()
-            return render(request, 'chat.html', {'connections': all_connections, 'chats': messages})
+            return render(request, 'chat.html', {'connections': all_connections, 'chats': chats})
         else:
             return redirect('login')
 
