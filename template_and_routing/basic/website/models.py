@@ -7,10 +7,11 @@ from datetime import datetime
 class Account(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     userID = models.CharField(max_length=6)
+    username = models.CharField(max_length=128)
     status = models.CharField(max_length=128)
 
-    # def __init__(self):
-    # return self.user.username
+    def __str__(self):
+        return self.user.username
 
 
 class ChatHistory(models.Model):
@@ -18,12 +19,23 @@ class ChatHistory(models.Model):
     receiver = models.CharField(max_length=128)
     message = models.CharField(max_length=255)
     timeStamp = models.TimeField(default=datetime.now)
+    is_sent = models.BooleanField(default=True)
+
+    def __str__(self):
+        return (self.sender + " to " + self.receiver)
 
 # https://docs.djangoproject.com/en/4.1/topics/db/examples/many_to_one/
-# class Connection(models.model):
-#     user = models.ForeignKey(Account, on_delete=models.CASCADE)
-#     connected = models.CharField(max_length=128)
-#     is_started = models.BooleanField(default=False)
+
+
+class UserConnection(models.Model):
+    user = models.ForeignKey(Account, on_delete=models.CASCADE)
+    userconnected = models.CharField(max_length=128)
+    is_started = models.BooleanField(default=False)
+    userid = models.CharField(max_length=6)
+    connectionid = models.CharField(max_length=6)
+
+    def __str__(self):
+        return self.user.username
 
 
 class connection(models.Model):

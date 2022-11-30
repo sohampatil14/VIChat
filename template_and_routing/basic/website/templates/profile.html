@@ -56,8 +56,9 @@
         <img src="{{ photo }}" />
       </div>
       <div class="data">
-        <div class="name">Name : {{ request.session.name }}</div>
+        <div class="name">Name : {{ name }}</div>
         <div class="status">Status : {{ request.session.status }}</div>
+        <div class="status">User ID : {{ request.session.ID }}</div>
       </div>
     </div>
   </div>

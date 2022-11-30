@@ -3,6 +3,8 @@ from django.contrib.auth.models import User
 from django.contrib.auth.admin import UserAdmin
 from .models import connection
 from .models import Account
+from .models import UserConnection
+from .models import ChatHistory
 
 # Register your models here.
 
@@ -21,4 +23,6 @@ class CustomizedUserAdmin(UserAdmin):
 
 
 admin.site.unregister(User)
+admin.site.register(UserConnection)
+admin.site.register(ChatHistory)
 admin.site.register(User, CustomizedUserAdmin)

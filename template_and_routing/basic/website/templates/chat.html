@@ -1,6 +1,6 @@
 {% load static %} {% block content %}
 <head>
-  <title>Chattin' {{connections.0}}</title>
+  <title>Chattin' {{connections.0.userconnected}}</title>
   <link
     rel="stylesheet"
     type="text/css"
@@ -114,9 +114,9 @@
         {% for connection in connections %}
         <input type="hidden" value="forloop.counter0" />
         <li class="person" id="{{ forloop.counter0 }}">
-          <img src="{{ connection.profile_photo }}" alt="" />
+          <img src="" alt="" />
           <div>
-            <h2>{{ connection.name }}</h2>
+            <h2>{{ connection.userconnected }}</h2>
           </div>
         </li>
         {% endfor %} {% comment %} {% for connection in connections %}
@@ -131,13 +131,18 @@
       </ul>
       <div class="add-ico">
         <div id="myDropdown" class="dropdown-content">
-          <input
-            type="text"
-            placeholder="Search.."
-            id="myInput"
-            onkeyup="filterFunction()"
-            style="background: #7b448d"
-          />
+          <form action="{% url 'chat' %}" method="POST" style="margin: 0">
+            <input
+              type="text"
+              placeholder="Search.."
+              id="myInput"
+              name="conid"
+              onkeyup="filterFunction()"
+              style="background: #7b448d"
+            />
+            <input type="hidden" name="send" value="False" />
+            <input type="submit" style="color: black" />
+          </form>
         </div>
         <button onclick="myFunction()" class="dropbtn">
           <img
@@ -150,13 +155,9 @@
     </aside>
     <main>
       <header>
-        <img
-          class="prof-photo"
-          src="{{ connections.0.profile_photo }}"
-          alt=""
-        />
+        <img class="prof-photo" src="" alt="" />
         <div>
-          <h2 class="con-name">{{connections.0.name}}</h2>
+          <h2 class="con-name">{{connections.0.userconnected }}</h2>
         </div>
 
         <div class="w3-container" style="float: right">
@@ -180,7 +181,7 @@
               >
                 <input
                   type="hidden"
-                  value="{{ connections.0.name }}"
+                  value="{{ connections.0.userconnected }}"
                   name="name"
                   class="name"
                 />
@@ -211,7 +212,7 @@
         >
           <input
             type="hidden"
-            value="{{ connections.0.name }}"
+            value="{{ connections.0.userconnected }}"
             name="name"
             class="name"
           />
@@ -221,7 +222,7 @@
             class="photo"
             name="photo"
           />
-          <button style="border: 0">
+          <button style="border: 0; background-color: transparent">
             <img
               src="{% static 'website\images\video-ico.png' %}"
               width="36px"
@@ -239,7 +240,7 @@
         <img src="{% static 'website\images\ico_star.png' %}" alt="" />
         {% endcomment %}
       </header>
-      {% comment %}
+      {% if not connections.0.is_started %}
       <ul
         id="chat"
         style="
@@ -249,37 +250,55 @@
           align-items: center;
         "
       >
-        {% if not connections.0.is_started %}
         <img src="{% static  'website/images/waving-hi.gif'%}" />
         <p>Say Hi to start conversation with</p>
-        <img class="prof-photo" src="{{connections.0.profile_photo}}" alt="" />
-        <p class="con-name">{{ connections.0.name }}</p>
-        {% endif %}
+        <img class="prof-photo" src="" alt="" />
+        <p class="con-name">{{ connections.0.userconnected }}</p>
       </ul>
-      {% endcomment %}
-
-      <div class="chat">
-        <div class="receive">{% lorem 1 b random %}</div>
-        <div class="send">{% lorem 1 b random %}</div>
+      {% else %} {% comment %}
+      <div class="wrapper">
+        {% endcomment %}
+        <div class="chat" id="chats">
+          {% for i in chats %} {% if i.sender == request.session.name %}
+          <div class="send">{{ i.message }}</div>
+          {% else %}
+          <div class="receive">{{ i.message }}</div>
+          {% endif %} {% endfor %}
+        </div>
+        {% comment %}
       </div>
-
+      {% endcomment %} {% endif %}
       <div class="border">
         <footer>
-          <textarea placeholder="Type your message"></textarea>
-          <img
-            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png"
-            alt=""
-          />
-          <img
-            src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_file.png"
-            alt=""
-          />
-          <a href="#">Send</a>
+          <form action="{% url 'chat' %}" method="POST">
+            <textarea placeholder="Type your message" name="text"></textarea>
+            <img
+              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_picture.png"
+              alt=""
+            />
+            <img
+              src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/1940306/ico_file.png"
+              alt=""
+            />
+            <input
+              type="hidden"
+              name="sender"
+              value="{{ request.session.name }}"
+            />
+            <input
+              type="hidden"
+              name="receiver"
+              value="{{ connections.0.userconnected }}"
+              class="name"
+            />
+            <input type="hidden" name="is_sent" value="True" />
+            <input type="hidden" name="send" value="True" />
+            <button id="send">Send</button>
+          </form>
         </footer>
       </div>
     </main>
   </div>
-  {% if iterator in list %} {{ iterator }} {% endif %}
 </body>
 {% endblock %}
 
@@ -317,6 +336,17 @@
       }
     }
   }
+
+  var element = document.getElementById("chats");
+  element.scrollTop = element.scrollHeight;
+
+  function updateScroll() {
+    var element = document.getElementById("chats");
+    element.scrollTop = element.scrollHeight;
+  }
+
+  //once a second
+  {% comment %} setInterval(updateScroll, 1000); {% endcomment %}
 </script>
 
 {% comment %} Comments console.log({{ forloop.counter0 }}); - get counter of
@@ -329,4 +359,7 @@ console.log("done, result=%s", result); }, });*/ //console.log("recognize/" +
 $(this).attr("id")); Change src attribute of img //console.log(src);
 //console.log($('#chat:nth-child(3)').attr('src')); {% endcomment %} {%comment%}
 https://www.w3schools.com/howto/howto_js_filter_dropdown.asp#:~:text=Example%20Explained,dropdown%20menu%20correctly%20with%20CSS.
-search drop down {% endcomment %}
+search drop down {% endcomment %} {% comment %}
+<div class="receive">{% lorem 1 w random %}</div>
+<div class="send">{% lorem 1 w random %}</div>
+{% endcomment %}
